@@ -16,11 +16,11 @@ class OpenAICompatibleLLM:
         api_key: Optional[str] = None,
         timeout_s: int = 60,
     ):
-        # примеры:
-        # base_url="http://localhost:8000/v1"
+        # Пример base_url: "http://localhost:8000/v1"
         self.base_url = (base_url or os.getenv("LLM_BASE_URL", "http://localhost:8000/v1")).rstrip("/")
         self.model = model or os.getenv("LLM_MODEL", "local-model")
-        # Многие локальные сервера игнорят ключ, но пусть будет единый интерфейс
+
+        # Многие локальные сервера ключ игнорируют, но для универсальности поддержим
         self.api_key = api_key or os.getenv("LLM_API_KEY", "")
         self.timeout_s = timeout_s
 
@@ -41,9 +41,11 @@ class OpenAICompatibleLLM:
         resp.raise_for_status()
 
         data = resp.json()
-        # ожидаем стандартный формат: choices[0].message.content
+
+        # Ожидаем стандартный формат OpenAI-style
+        # choices[0].message.content
         try:
             return data["choices"][0]["message"]["content"]
         except Exception:
-            # если сервер вернул чуть другой формат
+            # на случай слегка другого формата ответа — вернём всё как строку
             return str(data)
