@@ -96,7 +96,7 @@ Multi-Agent Interview Coach — это мультиагентная систем
 ---
 
 ## Структура проекта
-
+```
 multi_agent_interview_coach/
 requirements.txt
 README.md
@@ -121,7 +121,7 @@ openai_compatible.py
 scripts/
 init.py
 run_scenario_alex.py
-
+```
 ## Установка и запуск
 
 ### 1) Установка зависимостей
